@@ -1,8 +1,8 @@
-require "ssh_helper/version"
-require "ssh_helper/client"
+require "ssher/version"
+require "ssher/client"
 require "thor"
 
-module SshHelper
+module Ssher
   class Error < StandardError
     attr_accessor :message
     def initialize(message)
@@ -14,7 +14,7 @@ module SshHelper
 
     desc "ls", "List SSH paths"
     def ls
-      paths = SshHelper::Client.new.list
+      paths = Ssher::Client.new.list
       if paths.empty?
         puts "You don't have any paths saved."
       else
@@ -31,7 +31,7 @@ module SshHelper
         alias: ssh_alias
       }
 
-      SshHelper::Client.new.add(path_obj)
+      Ssher::Client.new.add(path_obj)
     rescue Error => e
       puts e.message
     end

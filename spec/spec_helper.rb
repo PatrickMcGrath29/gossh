@@ -1,5 +1,5 @@
 require "bundler/setup"
-require "ssh_helper"
+require "ssher"
 
 RSpec.configure do |config|
   # Enable flags like --only-failures and --next-failure

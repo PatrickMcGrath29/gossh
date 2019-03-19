@@ -1,4 +1,4 @@
 source "https://rubygems.org"
 
-# Specify your gem's dependencies in ssh_helper.gemspec
+# Specify your gem's dependencies in ssher.gemspec
 gemspec

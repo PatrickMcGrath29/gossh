@@ -1,4 +1,4 @@
 #!/usr/bin/env ruby
 
-require "ssh_helper"
-SshHelper::CLI.start(ARGV)
+require "ssher"
+Ssher::CLI.start(ARGV)

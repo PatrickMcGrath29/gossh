@@ -1,16 +1,16 @@
 
 lib = File.expand_path("../lib", __FILE__)
 $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
-require "ssh_helper/version"
+require "ssher/version"
 
 Gem::Specification.new do |spec|
-  spec.name          = "ssh_helper"
-  spec.version       = SshHelper::VERSION
+  spec.name          = "ssher"
+  spec.version       = Ssher::VERSION
   spec.authors       = ["Patrick McGrath"]
   spec.email         = ["patrickmcgrath29@gmail.com"]
 
-  spec.summary       = %q{A simple CLI to help manage SSH paths.}
-  spec.description   = %q{A simple CLI to help manage SSH paths.}
+  spec.summary       = %q{A simple CLI to help manage SSH connections.}
+  spec.description   = %q{A simple CLI to help manage SSH connections.}
   spec.homepage      = "https://patrickmcgrath.io"
   spec.license       = "MIT"
 

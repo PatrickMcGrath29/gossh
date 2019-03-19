@@ -1,12 +1,12 @@
-require "ssh_helper/path"
+require "ssher/path"
 require "fileutils"
 require "json"
 
-module SshHelper
+module Ssher
   class Client
 
     # Persistence layer file location for saving SSH paths
-    CONFIG_PATH = File.expand_path("~/.ssh_helper/paths.json")
+    CONFIG_PATH = File.expand_path("~/.ssher/paths.json")
 
     def initialize
       verify_config
@@ -19,9 +19,9 @@ module SshHelper
     end
 
     def add(obj)
-      new_path = SshHelper::Path.new(obj)
+      new_path = Ssher::Path.new(obj)
       if @paths.any? {|path| path.alias = new_path.alias}
-        raise SshHelper::Error.new("Error: A path already exists with this alias")
+        raise Ssher::Error.new("Error: A path already exists with this alias")
       else
         @paths << new_path
         save
@@ -47,11 +47,11 @@ module SshHelper
       json_paths = File.read(CONFIG_PATH)
       JSON.parse(json_paths)["paths"].map do |path|
         path = path.inject({}){|memo,(k,v)| memo[k.to_sym] = v; memo}
-        SshHelper::Path.new(path)
+        Ssher::Path.new(path)
       end
     end
 
-    # Check if the '~/.ssh_helper' directory exists, and create it if it doesn't
+    # Check if the '~/.ssher' directory exists, and create it if it doesn't
     def verify_config
       dirname = File.dirname(CONFIG_PATH)
 

@@ -1,4 +1,4 @@
-module SshHelper
+module Ssher
   class Version
     # Major version: Increment on major API change
     MAJOR = "0"

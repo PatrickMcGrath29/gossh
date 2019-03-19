@@ -1,4 +1,4 @@
-module SshHelper
+module Ssher
   class Path
     attr_accessor :alias, :path
 
