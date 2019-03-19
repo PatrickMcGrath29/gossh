@@ -5,12 +5,12 @@ require "json"
 module SshHelper
   class Client
 
-    # Persistence location for saving SSH paths
+    # Persistence layer file location for saving SSH paths
     CONFIG_PATH = File.expand_path("~/.ssh_helper/paths.json")
 
     def initialize
       verify_config
-      @paths = fetch_paths.reject {|path| path.invalid? }
+      @paths = fetch_paths&.reject {|path| path.invalid? } || []
     end
 
     # List SSH paths
@@ -18,7 +18,27 @@ module SshHelper
       @paths
     end
 
+    def add(obj)
+      new_path = SshHelper::Path.new(obj)
+      if @paths.any? {|path| path.alias = new_path.alias}
+        raise SshHelper::Error.new("Error: A path already exists with this alias")
+      else
+        @paths << new_path
+        save
+      end
+    end
+
     private
+
+    # Save SSH paths to the persistence layer
+    def save
+      File.open(CONFIG_PATH, "w") do |file|
+        file_contents = {
+          "paths": @paths.map {|path| path.to_hash }
+        }
+        file.write(file_contents.to_json)
+      end
+    end
 
     # Return all saved SSH paths
     def fetch_paths
@@ -26,6 +46,7 @@ module SshHelper
 
       json_paths = File.read(CONFIG_PATH)
       JSON.parse(json_paths)["paths"].map do |path|
+        path = path.inject({}){|memo,(k,v)| memo[k.to_sym] = v; memo}
         SshHelper::Path.new(path)
       end
     end
