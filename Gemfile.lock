@@ -2,12 +2,14 @@ PATH
   remote: .
   specs:
     ssh_helper (0.1.0)
+      fileutils
       thor (~> 0.20)
 
 GEM
   remote: https://rubygems.org/
   specs:
     diff-lcs (1.3)
+    fileutils (1.1.0)
     rake (10.5.0)
     rspec (3.8.0)
       rspec-core (~> 3.8.0)
