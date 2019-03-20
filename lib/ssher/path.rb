@@ -17,5 +17,9 @@ module Ssher
         alias: self.alias
       }
     end
+
+    def to_s
+      "#{self.alias} - #{self.path}"
+    end
   end
 end

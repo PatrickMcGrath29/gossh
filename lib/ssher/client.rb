@@ -20,7 +20,7 @@ module Ssher
 
     def add(obj)
       new_path = Ssher::Path.new(obj)
-      if @paths.any? {|path| path.alias = new_path.alias}
+      if @paths.any? {|path| path.alias == new_path.alias}
         raise Ssher::Error.new("Error: A path already exists with this alias")
       else
         @paths << new_path
