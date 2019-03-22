@@ -1,4 +1,4 @@
-require "gossh/path"
+require "gossh/connection"
 require "fileutils"
 require "json"
 
@@ -10,20 +10,20 @@ module GoSSH
 
     def initialize
       verify_config
-      @paths = fetch_paths&.reject {|path| path.invalid? } || []
+      @connections = fetch_connections&.reject {|connection| connection.invalid? } || []
     end
 
     # List SSH paths
     def list
-      @paths
+      @connections
     end
 
     def add(obj)
-      new_path = GoSSH::Connection.new(obj)
-      if @paths.any? {|path| path.alias == new_path.alias}
-        raise GoSSH::Error.new("Error: A path already exists with this alias")
+      new_connection = GoSSH::Connection.new(obj)
+      if @connections.any? {|connection| connection.alias == new_connection.alias}
+        raise GoSSH::Error.new("Error: A connection already exists with this alias")
       else
-        @paths << new_path
+        @connections << new_connection
         save
       end
     end
@@ -34,20 +34,20 @@ module GoSSH
     def save
       File.open(CONFIG_PATH, "w") do |file|
         file_contents = {
-          "paths": @paths.map {|path| path.to_hash }
+          "connections": @connections.map {|connection| connection.to_hash }
         }
         file.write(file_contents.to_json)
       end
     end
 
     # Return all saved SSH paths
-    def fetch_paths
+    def fetch_connections
       return nil unless File.exist?(CONFIG_PATH)
 
-      json_paths = File.read(CONFIG_PATH)
-      JSON.parse(json_paths)["paths"].map do |path|
-        path = path.inject({}){|memo,(k,v)| memo[k.to_sym] = v; memo}
-        GoSSH::Path.new(path)
+      json_connections = File.read(CONFIG_PATH)
+      JSON.parse(json_connections)["connections"].map do |connection|
+        conneciton = conneciton.inject({}){|memo,(k,v)| memo[k.to_sym] = v; memo}
+        GoSSH::Connection.new(conneciton)
       end
     end
 
