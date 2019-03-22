@@ -1,12 +1,12 @@
-require "ssher/path"
+require "gossh/path"
 require "fileutils"
 require "json"
 
-module Ssher
+module GoSSH
   class Client
 
     # Persistence layer file location for saving SSH paths
-    CONFIG_PATH = File.expand_path("~/.ssher/paths.json")
+    CONFIG_PATH = File.expand_path("~/.gossh/paths.json")
 
     def initialize
       verify_config
@@ -19,9 +19,9 @@ module Ssher
     end
 
     def add(obj)
-      new_path = Ssher::Path.new(obj)
+      new_path = GoSSH::Connection.new(obj)
       if @paths.any? {|path| path.alias == new_path.alias}
-        raise Ssher::Error.new("Error: A path already exists with this alias")
+        raise GoSSH::Error.new("Error: A path already exists with this alias")
       else
         @paths << new_path
         save
@@ -47,11 +47,11 @@ module Ssher
       json_paths = File.read(CONFIG_PATH)
       JSON.parse(json_paths)["paths"].map do |path|
         path = path.inject({}){|memo,(k,v)| memo[k.to_sym] = v; memo}
-        Ssher::Path.new(path)
+        GoSSH::Path.new(path)
       end
     end
 
-    # Check if the '~/.ssher' directory exists, and create it if it doesn't
+    # Check if the '~/.gossh' directory exists, and create it if it doesn't
     def verify_config
       dirname = File.dirname(CONFIG_PATH)
 

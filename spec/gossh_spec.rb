@@ -1,6 +1,6 @@
-RSpec.describe Ssher do
+RSpec.describe GoSSH do
   it "has a version number" do
-    expect(Ssher::VERSION).not_to be nil
+    expect(GoSSH::VERSION).not_to be nil
   end
 
   it "does something useful" do

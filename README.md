@@ -1,4 +1,4 @@
-# Ssher
+# GoSSH
 
 This is a simple Ruby CLI to help manage various SSH connections
 
@@ -7,7 +7,7 @@ This is a simple Ruby CLI to help manage various SSH connections
 Add this line to your application's Gemfile:
 
 ```ruby
-gem 'ssher'
+gem 'gossh'
 ```
 
 And then execute:
@@ -16,7 +16,7 @@ And then execute:
 
 Or install it yourself as:
 
-    $ gem install ssher
+    $ gem install gossh
 
 ## Usage
 
@@ -30,7 +30,7 @@ To install this gem onto your local machine, run `bundle exec rake install`. To 
 
 ## Contributing
 
-Bug reports and pull requests are welcome on GitHub at https://github.com/PatrickMcGrath29/ssher.
+Bug reports and pull requests are welcome on GitHub at https://github.com/PatrickMcGrath29/gossh.
 
 ## License
 

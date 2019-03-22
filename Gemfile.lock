@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    sshhelper (0.1.0)
+    gossh (0.1.0)
       cli-ui
       fileutils
       thor (~> 0.20)
@@ -33,9 +33,9 @@ PLATFORMS
 
 DEPENDENCIES
   bundler (~> 2.0)
+  gossh!
   rake (~> 10.0)
   rspec (~> 3.0)
-  sshhelper!
 
 BUNDLED WITH
    2.0.1

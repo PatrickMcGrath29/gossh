@@ -1,5 +1,5 @@
-module Ssher
-  class Path
+module GoSSH
+  class Connection
     attr_accessor :alias, :path
 
     def initialize(hash)

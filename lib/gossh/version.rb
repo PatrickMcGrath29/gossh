@@ -1,4 +1,4 @@
-module Ssher
+module GoSSH
   class Version
     # Major version: Increment on major API change
     MAJOR = "0"
