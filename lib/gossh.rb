@@ -15,55 +15,61 @@ module GoSSH
 
     desc "ls", "List SSH Connections"
     def ls
-      paths = GoSSH::Client.new.list
-      if paths.empty?
-        puts "You don't have any paths saved."
+      connections = GoSSH::Client.new.list
+      if connections.empty?
+        puts "You don't have any connections saved."
       else
-        paths.each_with_index do |path, idx|
-          puts "#{idx}: #{path.to_s}"
+        connections.each_with_index do |conn, idx|
+          puts "#{idx}: #{conn.to_s}"
         end
       end
     rescue Interrupt, SystemExit
     end
+
 
     desc "add", "Add a new SSH connection"
     def add
       ::CLI::UI::Frame.open('New SSH Connection', color: :blue) do
         alias_name = ::CLI::UI.ask("Enter Alias Name")
-        ssh_connection = ::CLI::UI.ask("Enter SSH Host")
+        ssh_path = ::CLI::UI.ask("Enter SSH Path")
         key_encrpytion = ::CLI::UI.ask("Private Key Encryption?", options: %w{Yes No})
         if key_encrpytion == "Yes"
           key_path = ::CLI::UI.ask("Private Key Path", is_file: true)
         end
 
+        GoSSH::Client.new.add({
+          alias: alias_name,
+          path: ssh_path
+        })
       end
     rescue Interrupt, SystemExit
     end
 
-    desc "goto INDEX", "Connect to a specific SSH connection"
-    def goto(index)
-      index = index.to_i
-      paths = GoSSH::Client.new.list
 
-      if paths.empty?
-        puts "No SSH connections configured"
-      elsif paths.length < index
-        puts "Invalid index"
+    desc "goto ALIAS", "Connect to a specific SSH connection"
+    def goto(alias_name)
+      connections = GoSSH::Client.new.list
+      match = connections.select { |conn| conn.alias == alias_name }&.first
+
+      if match.nil?
+        puts "No Matching SSH Connection Found"
       else
         puts "Connecting..."
-        exec("ssh " + paths[index].path)
+        exec("ssh " + match.path)
+        end
       end
     rescue Interrupt, SystemExit
     end
+
 
     desc "go", "List SSH connections, then connect to one"
     def go
-      paths = GoSSH::Client.new.list
+      connections = GoSSH::Client.new.list
 
-      if not paths.empty?
+      if not connections.empty?
         ::CLI::UI::Prompt.ask("Select an SSH connection") do |handler|
-          paths.each_with_index do |path, idx|
-            handler.option("#{path.to_s}")  { |selection| exec("ssh " + path.path) }
+          connections.each_with_index do |conn, idx|
+            handler.option("#{conn.to_s}")  { |selection| exec("ssh " + conn.path) }
           end
         end
       else
